@@ -1,0 +1,78 @@
+{
+    "1": {
+        "question":"What time is it?",
+        "level": "A1",
+        "options":["It's 2 o'clock", "2 hours", "It's a 2 o'clockk", "It's 2 o'clock"],
+        "right_answer": "It's 2 o'clock"
+    },
+
+    "2": {
+        "question":"Whats's your  name?",
+        "level": "A1",
+        "options":["My name is John", "My name john", "My name are John", "My name a John"],
+        "right_answer": "My name is John"
+    },
+
+    "3": {
+        "question":"A: ____ is Katie?\nB: She is 20 years old",
+        "level": "A1",
+        "options":["How years", "What years", "What old", "How old"],
+        "right_answer": "How old"
+    },
+
+    "4": {
+        "question":"A: _____ did you live in New York?\nB: I lived there for almost five years.",
+        "level": "A2",
+        "options":["When", "How much", "How long", "How many"],
+        "right_answer": "How long"
+    },
+
+    "5": {
+        "question":"When ____?",
+        "level": "A2",
+        "options":["did you arrived", "did you arrive", "were you arrived", "has you arriving"],
+        "right_answer": "did you arrived"
+    },
+
+    "6": {
+        "question":"_____ played basketball yesterday?",
+        "level": "A2",
+        "options":["Yes i'm playing", "No they don't", "Ye she play", "Yes he did"],
+        "right_answer": "Yes he did"
+    },
+
+    "7": {
+        "question":"In Johannesburg most people ____ at least five languages.",
+        "level": "B1",
+        "options":["speak", "are speaking", "is speak", "are speak"],
+        "right_answer": "are speaking"
+    },
+
+    "8": {
+        "question":"Languages ____ very fast. Half of world's languages will disappear by 2100.",
+        "level": "B1",
+        "options":["disappear", "are dissapearing", "is dissapear", "languege"],
+        "right_answer": "are dissapearing"
+    },
+
+    "9": {
+        "question":"What time ____ ?",
+        "level": "B1",
+        "options":["does the first train leave", "is the first train leaving", "is train leave", "is leave training"],
+        "right_answer": "does the first train leave"
+    },
+
+    "10": {
+        "question":"You can't see Tim now; he a bath.",
+        "level": "B2",
+        "options":["'s having", "has", "taking", "take"],
+        "right_answer": "'s having"
+    },
+
+    "11": {
+        "question":"Nobody they will win the match.",
+        "level": "B2",
+        "options":["is thinking", "thinks", "thinked", "think"],
+        "right_answer": "thinks"
+    }
+}

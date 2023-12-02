@@ -1,0 +1,53 @@
+{
+    "1": {
+      "question": "We’ve ... arrived at the caravan park.",
+      "options": ["yet", "just", "since"],
+      "right_answer": "just"
+    },
+    "2": {
+      "question": "We stopped at a few places on the way here, including a castle and a hill with beautiful views. I thought the castle was amazing, but the kids were...  there.",
+      "options": ["bored", "boring", "bore"],
+      "right_answer": "bored"
+    },
+    "3": {
+      "question": "They didn't find the castle ...  They just wanted to run around.",
+      "options": ["interest", "interested", "interesting"],
+      "right_answer": "interesting"
+    },
+    "4": {
+      "question": "We had a few problems getting through the main gates. The owners of the caravan that we’ve rented told us that they ...  a key for us at reception, but when we arrived, reception was closed and there was no-one there.",
+      "options": ["would leave", "will leave", "left"],
+      "right_answer": "had left"
+    },
+    "5": {
+      "question": "We had to phone the owners and ask them where ...  the key. In the end, someone from the shop helped us get into reception and pick up the key.",
+      "options": ["they had left", "they would leave", "had they left"],
+      "right_answer": "they had left"
+    },
+    "6": {
+      "question": "Well, the caravan park is very different ...  how I remember it.",
+      "options": ["about", "from", "than"],
+      "right_answer": "from"
+    },
+    "7": {
+      "question": "Since the last time we ...  here, it has doubled in size!",
+      "options": ["are", "have been", "were"],
+      "right_answer": "were"
+    },
+    "8": {
+      "question": "A new swimming pool ... , and there is also another bar.",
+      "options": ["is building", "has built", "has been built"],
+      "right_answer": "has been built"
+    },
+    "9": {
+      "question": "I wish I had known about that when I booked the caravan. We’re really close to it and it is...   noisy that I don’t think I will sleep well tonight.",
+      "options": ["so", "such", "such a"],
+      "right_answer": "such a"
+    },
+    "10": {
+      "question": "I ... better buy some earplugs when I get the chance, otherwise I’m going to be very grumpy this trip.",
+      "options": ["have", "had", "would"],
+      "right_answer": "had"
+    }
+}
+  

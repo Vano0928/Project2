@@ -1,6 +1,7 @@
-from .db import DefaultInterface
+from .db import BotDb, DefaultInterface
 
 class DbUsers(DefaultInterface):
+
     def create_default_tables(self):
         self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS users(
@@ -12,6 +13,18 @@ class DbUsers(DefaultInterface):
                 english_level VARCHAR(2)
             );
         """)
+        return self.conn.commit()
+    
+
+    def create_default_marks_tables(self):
+        self.cursor.execute('''
+        CREATE TABLE IF NOT EXISTS user_marks (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            mark INTEGER,
+            user_id INTEGER,
+            FOREIGN KEY (user_id) REFERENCES users(id)
+        )
+    ''')
         return self.conn.commit()
 
 
@@ -59,3 +72,40 @@ class DbUsers(DefaultInterface):
             SET first_name = ?, last_name = ?, username = ?
             WHERE telegram_user_id = ?
             """, (first_name, last_name, username, telegram_user_id))
+        return self.conn.commit()
+    
+
+    def update_english_level(self, telegram_user_id: int, english_level: str):
+        self.cursor.execute("""
+            UPDATE users
+            SET english_level = ?
+            WHERE telegram_user_id = ?
+            """, (english_level, telegram_user_id))
+        return self.conn.commit()
+    
+
+    def add_mark(self, telegram_id: int, mark: int):
+        user_data = self.get_user_by_telegram_id(telegram_id)
+        user_id = user_data[0]
+        print(user_id, mark)
+
+        self.cursor.execute("""
+            INSERT INTO user_marks (user_id, mark)
+            VALUES (?, ?)
+        """, (user_id, mark,))
+
+        return self.conn.commit()
+
+    def get_marks(self, telegram_id):
+        user_data = self.get_user_by_telegram_id(telegram_id)
+        user_id = user_data[0]
+        print(user_data)
+
+
+        self.cursor.execute(f"""
+            SELECT mark
+            FROM user_marks
+            WHERE user_id = ?
+        """, (user_id, ))
+
+        return self.cursor.fetchall()

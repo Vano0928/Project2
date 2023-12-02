@@ -1,0 +1,53 @@
+{
+    "1": {
+      "question": "What is skyscraper?",
+      "options": [
+        "It's a very tall building",
+        "It's a car",
+        "It's a room",
+        "It's an animal"
+      ],
+      "right_answer": "It's a very tall building"
+    },
+    "2": {
+      "question": "To go on a tour with a guide means ....",
+      "options": ["To travel", "To relax", "To have an excursion", "To swim"],
+      "right_answer": "To have an excursion"
+    },
+    "3": {
+      "question": "By ferry means....",
+      "options": ["Літаком", "Поїздом", "Тролейбусом", "Паромом"],
+      "right_answer": "Паромом"
+    },
+    "4": {
+      "question": "Whose means...",
+      "options": ["Чи", "Що", "Хто", "Чий"],
+      "right_answer": "Чий"
+    },
+    "5": {
+      "question": "What's 'destination'?",
+      "options": [
+        "A house",
+        "A car",
+        "A place you have to get to",
+        "A new words you have to remember"
+      ],
+      "right_answer": "A place you have to get to"
+    },
+    "6": {
+      "question": "Translate: who? whose? which?",
+      "options": ["Хто? Що? Який ?", "Хто? Чий? Котрий?", "Що? Де ? Коли?"],
+      "right_answer": "Хто? Чий? Котрий?"
+    },
+    "7": {
+      "question": "Invent means...",
+      "options": ["купувати", "вишивати", "винаходи"],
+      "right_answer": "винаходи"
+    },
+    "8": {
+      "question": "Go ice-skating means...",
+      "options": ["кататися на ковзанах", "кататися на лижах", "кататися на роликах"],
+      "right_answer": "кататися на ковзанах"
+    }
+  }
+  

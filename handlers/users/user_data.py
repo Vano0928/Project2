@@ -3,9 +3,10 @@ import logging
 from aiogram import types, Router, F
 from aiogram.fsm.context import FSMContext
 from aiogram.filters import Command, CommandStart, CommandObject, state
+from aiogram.filters.callback_data import CallbackData
 from aiogram.fsm.state import State, StatesGroup
 
-from loader import db_users, dp
+from loader import db_users, dp, keyboards
 
 
 class RegStates(StatesGroup):
@@ -14,17 +15,9 @@ class RegStates(StatesGroup):
     last_name = State()
 
 
-def reply_kb_markup_generator(kb: list, input_field_placeholder: str = None):
+def get_user_data(telegram_user_id):
+    user_data = db_users.get_user_by_telegram_id(telegram_user_id)
 
-    return types.ReplyKeyboardMarkup(
-        keyboard=kb,
-        resize_keyboard=True,
-        input_field_placeholder=input_field_placeholder
-    )
-
-
-async def send_user_data(msg: types.Message, telegram_id):
-    user_data = db_users.get_user_by_telegram_id(msg.from_user.id)
     
     first_name = user_data[2]
     last_name = user_data[3]
@@ -32,8 +25,7 @@ async def send_user_data(msg: types.Message, telegram_id):
     english_level = user_data[-1]
 
 
-
-    msg_text = f"""
+    return f"""
 Ваші дані:
 Ім'я - {first_name}
 Прізвище - {last_name}
@@ -41,29 +33,52 @@ async def send_user_data(msg: types.Message, telegram_id):
 Рівень англійської - {english_level}
 Якщо бажаєте змінити ваше ім'я або прізвище, то нажимайте:
 Мій кабінет - Змінити мої дані
-"""
+""".replace("None", "не визначено")
 
-    await msg.answer(msg_text.replace("None", "не визначено"))
 
+async def send_user_data(msg: types.Message):
+    keyboard = keyboards.main_reply_kb()
+
+    msg_to_user_text = get_user_data(msg.from_user.id)
+
+    await msg.answer(msg_to_user_text, reply_markup=keyboard)
+
+
+@dp.callback_query(F.data == "account_info")
+async def callback_send_user_data(callback: types.CallbackQuery):
+
+    msg_to_user_text = get_user_data(callback.from_user.id)
+    keyboard = keyboards.back_to_my_cabinet()
+
+    await callback.message.edit_text(msg_to_user_text, reply_markup=keyboard)
 
 
 @dp.message(CommandStart())
 async def add_user(msg: types.Message):
-    await msg.reply("Привіт! Це бот по вивченню англійської. Тут ти зможеш пройти тестування по рівням англійської і підняти свій рівень англійської. А тепер уперед!")
+    await msg.reply("Привіт! Це бот по вивченню англійської. Тут ти зможеш пройти тестування по рівням англійської і підняти свій рівень англійської. А тепер уперед!",
+                    reply_markup=keyboards.main_reply_kb())
     
     if not db_users.user_exists(msg.from_user.id):
         db_users.register_user(msg.from_user)
+       
+        await send_user_data(msg)
 
-        user_id = msg.from_user.id        
-        await send_user_data(msg, user_id)
+        keyboard = keyboards.main_test_kb()
+        await msg.answer("Чи не бажаєте пройти тест по визначенню рівня англійсюкої мови?", reply_markup=keyboard)
 
 
-@dp.message(F.text == "Змінити мої дані")
-async def edit_user_data(msg: types.Message, state: FSMContext):
+@dp.callback_query(F.data == "get_user_info")
+async def send_user_info(msg: types.Message):
+
+    await send_user_data(msg)
+
+
+@dp.callback_query(F.data == "edit_user_data")
+async def edit_user_data(callback: types.CallbackQuery, state: FSMContext): 
     if await state.get_state():
         return
     
-    user_data = db_users.get_user_by_telegram_id(msg.from_user.id)
+    user_data = db_users.get_user_by_telegram_id(callback.from_user.id)
     first_name = user_data[2]
 
 
@@ -71,28 +86,31 @@ async def edit_user_data(msg: types.Message, state: FSMContext):
        [types.KeyboardButton(text = f'{first_name}')]
        ]
     
-    keyboard = reply_kb_markup_generator(kb, "Введіть своє ім'я")
-
-    await msg.reply("Напишіть своє ім'я", reply_markup=keyboard)
+    keyboard = keyboards.reply_kb_markup_generator(kb, "Введіть своє ім'я")
+    
+    await callback.message.reply("Напишіть своє ім'я", reply_markup=keyboard, parse_mode="MarkdownV2")
     await state.set_state(RegStates.first_name)
 
 
 @dp.message(RegStates.first_name)
 async def first_name_edit(msg: types.Message, state: FSMContext):
-    first_name = msg.text
+    first_name: str = msg.text
 
     if len(first_name.split()) == 1 and len(first_name) < 32:
+        if first_name.isdigit():
+            return
+
 
         user_data = db_users.get_user_by_telegram_id(msg.from_user.id)
         last_name = user_data[3]
-        print(last_name)
+
         if last_name:
 
             kb = [
             [types.KeyboardButton(text = f'{last_name}')]
             ]
             
-            keyboard = reply_kb_markup_generator(kb, "Введіть своє прізвище")
+            keyboard = keyboards.reply_kb_markup_generator(kb, "Введіть своє прізвище")
 
         else:
             keyboard= types.ReplyKeyboardRemove()
@@ -114,10 +132,9 @@ async def user_edit(msg: types.Message, state: FSMContext):
         first_name = user_data["first_name"]
         last_name = msg.text
         username = msg.from_user.username
-        user_id = msg.from_user.id
 
         db_users.edit_user_data(msg.from_user.id, first_name, last_name, username)
-        await send_user_data(msg, user_id)
+        await send_user_data(msg)
         
         await state.clear()
 
